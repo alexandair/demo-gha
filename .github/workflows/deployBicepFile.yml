@@ -25,6 +25,8 @@ jobs:
     - name: MS Graph
       shell: pwsh
       run: |
+        Get-Module Az -ListAvailable
+        Get-Module Microsoft.Graph -ListAvailable
         # Install-Module Microsoft.Graph.Groups -Force
         $accessTokenString = (az account get-access-token --resource-type ms-graph | ConvertFrom-Json).accesstoken
         # $accessTokenString = (Get-AzAccessToken -ResourceTypeName MSGraph).Token
