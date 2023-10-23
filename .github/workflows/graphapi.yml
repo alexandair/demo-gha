@@ -1,0 +1,42 @@
+# .github/workflows/graphapi.yml
+name: Connect Microsoft Graph API
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: ["main"]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Aquire Access Token
+      id: oidc
+      shell: pwsh
+      run: |
+        $federated_token = curl -s -H "Authorization: bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$env:ACTIONS_ID_TOKEN_REQUEST_URL&audience=api://AzureADTokenExchange" |
+        ConvertFrom-Json | Select-Object -ExpandProperty Value
+        $access_token = curl -s -X POST "https://login.microsoftonline.com/$env:AZURE_TENANT_ID/oauth2/v2.0/token" `
+          -F client_id=$env:AZURE_CLIENT_ID `
+          -F grant_type=client_credentials `
+          -F scope=https://graph.microsoft.com/.default `
+          -F client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer `
+          -F client_assertion=$federated_token |
+           ConvertFrom-Json | Select-Object -ExpandProperty access_token
+        echo "::add-mask::$access_token"
+        echo "::set-output name=GRAPH_TOKEN::$access_token"
+      env:
+        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+
+    - name: Connect Microsoft Graph PowerShell
+      shell: pwsh
+      run: |
+        Connect-MgGraph -AccessToken '${{ steps.oidc.outputs.GRAPH_TOKEN }}'
+          #Something to do
+          Get-MgGroup
+        Disconnect-MgGraph
