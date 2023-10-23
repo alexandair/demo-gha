@@ -28,6 +28,7 @@ jobs:
         parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
         failOnStdErr: false
     - name: MS Graph
+      shell: pwsh
       run: |
         Install-Module Microsoft.Graph.Groups
         Connect-MgGraph -Identity -ClientId 96b3641c-d1e3-49dc-9573-f3446e880a4a
