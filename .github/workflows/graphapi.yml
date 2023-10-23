@@ -31,6 +31,8 @@ jobs:
         # echo "::set-output name=GRAPH_TOKEN::$access_token"
         echo "$GITHUB_OUTPUT"
         echo "GRAPH_TOKEN=$access_token" >> $GITHUB_OUTPUT
+        dir variable:
+        dir env:
       env:
         AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         AZURE_CLIENT_ID: ${{ secrets.AZURE_UAMI_CLIENT_ID }}
