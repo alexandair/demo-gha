@@ -36,8 +36,10 @@ jobs:
 
     - name: Connect Microsoft Graph PowerShell
       shell: pwsh
+      env:
+        ACCESS_TOKEN: ${{ steps.oidc.outputs.GRAPH_TOKEN }}
       run: |
-        $accessToken = ConvertTo-SecureString -String '${{ steps.oidc.outputs.GRAPH_TOKEN }}' -AsPlainText -Force
+        $accessToken = ConvertTo-SecureString -String $ACCESS_TOKEN -AsPlainText -Force
         Connect-MgGraph -AccessToken $accessToken
         Get-MgContext
         # Something to do
