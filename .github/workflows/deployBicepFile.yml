@@ -23,6 +23,7 @@ jobs:
       shell: pwsh
       run: |
         Install-Module Microsoft.Graph.Groups -Force
-        $accessToken = (az account get-access-token | ConvertFrom-Json).accesstoken
+        $accessTokenString = (az account get-access-token | ConvertFrom-Json).accesstoken
+        $accessToken = ConvertTo-SecureString -String $accessTokenString -AsPlainText -Force
         Connect-MgGraph -AccessToken $accessToken
         Get-MgGroup
