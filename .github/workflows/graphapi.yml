@@ -21,7 +21,7 @@ jobs:
         $federated_token = curl -s -H "Authorization: bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$env:ACTIONS_ID_TOKEN_REQUEST_URL&audience=api://AzureADTokenExchange" |
         ConvertFrom-Json | Select-Object -ExpandProperty Value
         $access_token = curl -s -X POST "https://login.microsoftonline.com/$env:AZURE_TENANT_ID/oauth2/v2.0/token" `
-          -F client_id=$env:AZURE_CLIENT_ID `
+          -F client_id=$env:UAMI_AZURE_CLIENT_ID `
           -F grant_type=client_credentials `
           -F scope=https://graph.microsoft.com/.default `
           -F client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer `
@@ -30,7 +30,7 @@ jobs:
         echo "::add-mask::$access_token"
         echo "::set-output name=GRAPH_TOKEN::$access_token"
       env:
-        AZURE_TENANT_ID: ${{ secrets.UAMI_AZURE_TENANT_ID }}
+        UAMI_AZURE_TENANT_ID: ${{ secrets.UAMI_AZURE_TENANT_ID }}
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
 
     - name: Connect Microsoft Graph PowerShell
