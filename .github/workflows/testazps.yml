@@ -34,4 +34,4 @@ jobs:
           $env:PSModulePath -split ":"
           Get-Module Az -ListAvailable
           Get-Module Microsoft.Graph -ListAvailable
-        azPSVersion: "latest"
+        azPSVersion: "10.4.1"
