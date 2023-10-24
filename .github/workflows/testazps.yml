@@ -25,7 +25,7 @@ jobs:
       shell: pwsh
       run: |
         $env:PSModulePath -split ":"
-        dir /usr/share/
+        ls -al /usr/share/
 
     - name: Run Azure PowerShell script
       uses: azure/powershell@v1
