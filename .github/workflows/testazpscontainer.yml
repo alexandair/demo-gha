@@ -42,6 +42,6 @@ jobs:
       run: |
         $env:PSModulePath -split ":"
         Get-Module Az -ListAvailable
-        Connect-AzAccount -AccessToken $env:ACCESS_TOKEN # -TenantId $env:AZURE_TENANT_ID -AccountId $env:AZURE_CLIENT_ID
+        Connect-AzAccount -AccessToken $env:ACCESS_TOKEN -TenantId $env:AZURE_TENANT_ID -AccountId $env:AZURE_CLIENT_ID
         Get-AzContext
         Get-AzVM -ResourceGroupName lab-rg
