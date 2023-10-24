@@ -23,6 +23,7 @@ jobs:
         $access_token = Invoke-WebRequest -Uri "https://login.microsoftonline.com/$env:AZURE_TENANT_ID/oauth2/v2.0/token" -Method POST -Body @{
             client_id=$env:AZURE_CLIENT_ID;
             grant_type="client_credentials";
+            scope="https://management.azure.com/.default";
             client_assertion_type="urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
             client_assertion=$federated_token
         } -UseBasicParsing | ConvertFrom-Json | Select-Object -ExpandProperty access_token
