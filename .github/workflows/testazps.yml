@@ -32,4 +32,5 @@ jobs:
         inlineScript: |
           $env:PSModulePath -split ":"
           Get-Module Az -ListAvailable
+          Get-Module Microsoft.Graph -ListAvailable
         azPSVersion: "latest"
