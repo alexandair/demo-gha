@@ -1,4 +1,4 @@
-name: TestAzurePowerShellContainer
+name: Test Azure PowerShell Container
 
 on:
     workflow_dispatch:
@@ -23,17 +23,15 @@ jobs:
       id: oidc
       shell: pwsh
       run: |
-        $federated_token = Invoke-WebRequest -Headers @{Authorization = "bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN"} -Uri $env:ACTIONS_ID_TOKEN_REQUEST_URL"&audience=api://AzureADTokenExchange" -Method GET -UseBasicParsing | ConvertFrom-Json | Select-Object -ExpandProperty Value
-        $access_token = Invoke-WebRequest -Uri "https://login.microsoftonline.com/$env:AZURE_TENANT_ID/oauth2/v2.0/token" -Method POST -Body @{
+        $federated_token = Invoke-RestMethod -Headers @{Authorization = "bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN"} -Uri $env:ACTIONS_ID_TOKEN_REQUEST_URL"&audience=api://AzureADTokenExchange" -Method GET -UseBasicParsing | Select-Object -ExpandProperty Value
+        $access_token = Invoke-RestMethod -Uri "https://login.microsoftonline.com/$env:AZURE_TENANT_ID/oauth2/v2.0/token" -Method POST -Body @{
             client_id=$env:AZURE_CLIENT_ID;
             grant_type="client_credentials";
             scope="https://management.azure.com/.default";
             client_assertion_type="urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
             client_assertion=$federated_token
-        } -UseBasicParsing | ConvertFrom-Json | Select-Object -ExpandProperty access_token
+        } -UseBasicParsing | Select-Object -ExpandProperty access_token
           echo "::add-mask::$access_token"
-          # echo "::set-output name=GRAPH_TOKEN::$access_token"
-          echo "$env:GITHUB_OUTPUT"
           echo "GRAPH_TOKEN=$access_token" >> $env:GITHUB_OUTPUT
 
 
