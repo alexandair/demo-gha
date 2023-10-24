@@ -23,13 +23,13 @@ jobs:
       id: oidc
       shell: pwsh
       run: |
-        $federated_token = Invoke-RestMethod -Headers @{Authorization = "bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN"} -Uri $env:ACTIONS_ID_TOKEN_REQUEST_URL"&audience=api://AzureADTokenExchange" -Method GET -UseBasicParsing | Select-Object -ExpandProperty Value
-        $access_token = Invoke-RestMethod -Uri "https://login.microsoftonline.com/$env:AZURE_TENANT_ID/oauth2/v2.0/token" -Method POST -Body @{
-            client_id=$env:AZURE_CLIENT_ID;
-            grant_type="client_credentials";
-            scope="https://management.azure.com/.default";
-            client_assertion_type="urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-            client_assertion=$federated_token
+        $federated_token = Invoke-RestMethod -Method GET -Uri $env:ACTIONS_ID_TOKEN_REQUEST_URL"&audience=api://AzureADTokenExchange" -Headers @{Authorization = "bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN"}  -UseBasicParsing | Select-Object -ExpandProperty Value
+        $access_token = Invoke-RestMethod -Method POST -Uri "https://login.microsoftonline.com/$env:AZURE_TENANT_ID/oauth2/v2.0/token" -Body @{
+            client_id             = $env:AZURE_CLIENT_ID
+            grant_type            = 'client_credentials'
+            scope                 = 'https://management.azure.com/.default'
+            client_assertion_type = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
+            client_assertion      = $federated_token
         } -UseBasicParsing | Select-Object -ExpandProperty access_token
           echo "::add-mask::$access_token"
           echo "GRAPH_TOKEN=$access_token" >> $env:GITHUB_OUTPUT
@@ -44,4 +44,4 @@ jobs:
         Get-Module Az -ListAvailable
         Connect-AzAccount -AccessToken $env:ACCESS_TOKEN -TenantId $env:AZURE_TENANT_ID -AccountId $env:AZURE_CLIENT_ID
         Get-AzContext
-        Get-AzVM -ResourceGroupName lab-rg
+        Get-AzVM -ResourceGroupName lab-rg | Select-Object Name
