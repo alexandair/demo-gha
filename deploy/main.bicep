@@ -12,14 +12,12 @@ param environmentType string
 @maxLength(13)
 param resourceNameSuffix string = uniqueString(resourceGroup().id)
 
-param storageAccountNameParam string = uniqueString(resourceGroup().id)
-
 // Define the names for resources.
 var appServiceAppName = 'demo-website-${resourceNameSuffix}'
 var appServicePlanName = 'demo-website'
 var logAnalyticsWorkspaceName = 'workspace-${resourceNameSuffix}'
 var applicationInsightsName = 'demowebsite'
-var storageAccountName = 'mystorageresourceNameSuffix'
+var storageAccountName = 'mystorage${resourceNameSuffix}'
 
 // Define the SKUs for each component based on the environment type.
 var environmentConfigurationMap = {
