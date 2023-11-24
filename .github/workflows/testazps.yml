@@ -25,13 +25,15 @@ jobs:
       shell: pwsh
       run: |
         $env:PSModulePath -split ":"
-        ls -al /usr/share/
+        ls -al /usr/share/az*
+        Get-Module Az -ListAvailable
 
     - name: Run Azure PowerShell script
       uses: azure/powershell@v1
       with:
         inlineScript: |
           $env:PSModulePath -split ":"
+          ls -al /usr/share/az*
           Get-Module Az -ListAvailable
           Get-Module Microsoft.Graph -ListAvailable
         azPSVersion: "10.4.1"
