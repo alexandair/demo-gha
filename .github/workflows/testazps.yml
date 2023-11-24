@@ -1,4 +1,4 @@
-name: AzurePowerShellSample
+name: Test pwsh shell and azure/powershell action
 
 on:
     workflow_dispatch:
