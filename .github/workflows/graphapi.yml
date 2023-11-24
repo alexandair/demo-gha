@@ -44,5 +44,5 @@ jobs:
         Connect-MgGraph -AccessToken $accessToken
         Get-MgContext
         # Something to do
-        Get-MgGroup
+        Get-MgGroup | Select-Object DisplayName
         Disconnect-MgGraph
