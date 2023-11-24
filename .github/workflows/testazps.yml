@@ -21,19 +21,20 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         enable-AzPSSession: true
 
-    - name: PSModulePath
+    - name: Run in pwsh shell
       shell: pwsh
       run: |
         $env:PSModulePath -split ":"
-        ls -al /usr/share/az*
+        ls -al /usr/share/
         Get-Module Az -ListAvailable
+        Get-Module Microsoft.Graph -ListAvailable
 
-    - name: Run Azure PowerShell script
+    - name: Run using azure/powershell action
       uses: azure/powershell@v1
       with:
         inlineScript: |
           $env:PSModulePath -split ":"
-          ls -al /usr/share/az*
+          ls -al /usr/share/
           Get-Module Az -ListAvailable
           Get-Module Microsoft.Graph -ListAvailable
         azPSVersion: "10.4.1"
