@@ -34,3 +34,4 @@ jobs:
         $accessToken = ConvertTo-SecureString -String $accessTokenString -AsPlainText -Force
         Connect-MgGraph -AccessToken $accessToken -NoWelcome
         Get-MgGroup | Select-Object DisplayName | ConvertTo-Json
+        Get-MgUser  | Select-Object DisplayName | ConvertTo-Json
