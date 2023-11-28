@@ -35,4 +35,8 @@ jobs:
         Connect-MgGraph -AccessToken $accessToken -NoWelcome
         Get-MgContext
         Get-MgGroup | Select-Object DisplayName | ConvertTo-Json
+        Disconnect-MgGraph
+        Connect-MgGraph -Identity -ClientId ${{ secrets.AZURE_UAMI_CLIENT_ID }}
+        Get-MgContext
         Get-MgUser  | Select-Object DisplayName | ConvertTo-Json
+        Disconnect-MgGraph
