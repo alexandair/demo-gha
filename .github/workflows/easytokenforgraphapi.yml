@@ -33,5 +33,6 @@ jobs:
         # $accessTokenString = (Get-AzAccessToken -ResourceTypeName MSGraph).Token
         $accessToken = ConvertTo-SecureString -String $accessTokenString -AsPlainText -Force
         Connect-MgGraph -AccessToken $accessToken -NoWelcome
+        Get-MgContext
         Get-MgGroup | Select-Object DisplayName | ConvertTo-Json
         Get-MgUser  | Select-Object DisplayName | ConvertTo-Json
