@@ -34,9 +34,5 @@ jobs:
         $accessToken = ConvertTo-SecureString -String $accessTokenString -AsPlainText -Force
         Connect-MgGraph -AccessToken $accessToken -NoWelcome
         Get-MgContext
-        Get-MgGroup | Select-Object DisplayName | ConvertTo-Json
-        Disconnect-MgGraph
-        Connect-MgGraph -Identity -ClientId ${{ secrets.AZURE_UAMI_CLIENT_ID }}
-        Get-MgContext
-        Get-MgUser  | Select-Object DisplayName | ConvertTo-Json
+        Get-MgGroup | Select-Object DisplayName -First 3 | ConvertTo-Json
         Disconnect-MgGraph
