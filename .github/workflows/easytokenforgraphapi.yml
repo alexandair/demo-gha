@@ -35,4 +35,4 @@ jobs:
         Connect-MgGraph -AccessToken $accessToken -NoWelcome
         Get-MgContext
         Get-MgGroup | Select-Object DisplayName -First 3 | ConvertTo-Json
-        Disconnect-MgGraph
+        Disconnect-MgGraph | Out-Null
