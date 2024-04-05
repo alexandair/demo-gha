@@ -37,4 +37,4 @@ jobs:
           ls -al /usr/share/
           Get-Module Az -ListAvailable
           Get-Module Microsoft.Graph -ListAvailable
-        azPSVersion: "11.15.0"
+        azPSVersion: "11.5.0"
