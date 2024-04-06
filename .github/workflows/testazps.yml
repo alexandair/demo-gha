@@ -28,7 +28,8 @@ jobs:
         ls -al /usr/share/
         Get-Module Az -ListAvailable
         Get-Module Microsoft.Graph -ListAvailable
-
+        Get-AzContext
+        
     - name: Run using azure/powershell action
       uses: azure/powershell@v1
       with:
@@ -37,4 +38,5 @@ jobs:
           ls -al /usr/share/
           Get-Module Az -ListAvailable
           Get-Module Microsoft.Graph -ListAvailable
+          Get-AzContext
         azPSVersion: "11.5.0"
